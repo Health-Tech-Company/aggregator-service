@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  labels:
+    app: aggregator-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aggregator-service
+  template:
+    metadata:
+      labels:
+        app: aggregator-service
+    spec:
+      containers:
+        - name: aggregator-service
+          image: gcr.io/cobalt-balancer-444315-g1/aggregator-service:prod
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080

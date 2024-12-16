@@ -1,0 +1,67 @@
+name: aggregator-service CI/CD Flow
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  PROJECT_ID: ${{secrets.GKE_PROJECT_ID}}
+  SI_CLUSTER: health-tech
+  SI_ZONE: us-central1
+  DEPLOYMENT_NAME: aggregator-service
+  IMAGE: aggregator-service
+  TAG: prod
+
+jobs:
+  ci-cd-pipeline:
+    name: CI/CD Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build Application with Maven
+        run: mvn clean install -DskipTests
+
+      - name: Setup Google Cloud CLI
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.3
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        with:
+          service_account_key: ${{secrets.GKE_SERVICE_ACCOUNT_KEY}}
+          project_id: ${{secrets.GKE_PROJECT_ID}}
+
+      - name: Configure Docker for GKE
+        run: gcloud auth configure-docker --quiet
+
+      - name: Get Cluster Credentials
+        run: gcloud container clusters get-credentials "$SI_CLUSTER" --zone "$SI_ZONE" --project "$PROJECT_ID"
+
+      - name: Build Docker Image
+        run: |
+          docker build -t "gcr.io/$PROJECT_ID/$IMAGE:$TAG" .
+
+      - name: Push Docker Image to GCR
+        run: |
+          docker push "gcr.io/$PROJECT_ID/$IMAGE:$TAG"
+
+      - name: Install Gcloud Component
+        run: |-
+          gcloud components install gke-gcloud-auth-plugin
+
+      - name: Deploy to GKE
+        run: |
+          kubectl apply -f service.yaml
+          kubectl apply -f deployment.yaml
+          kubectl rollout restart deployment "$DEPLOYMENT_NAME"
+          kubectl get services -o wide
