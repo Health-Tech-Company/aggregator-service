@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notification-service
+  name: aggregator-service
   labels:
     app: aggregator-service
 spec:
