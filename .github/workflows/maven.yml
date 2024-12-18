@@ -10,6 +10,7 @@ env:
   PROJECT_ID: ${{secrets.GKE_PROJECT_ID}}
   SI_CLUSTER: health-tech
   SI_ZONE: us-central1
+  NAME_SPACE: health-tech
   DEPLOYMENT_NAME: aggregator-service
   IMAGE: aggregator-service
   TAG: prod
@@ -61,7 +62,7 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-          kubectl apply -f service.yaml
-          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml -n "$NAME_SPACE"
+          kubectl apply -f deployment.yaml -n "$NAME_SPACE"
           kubectl rollout restart deployment "$DEPLOYMENT_NAME"
-          kubectl get services -o wide
+          kubectl get services -o wide -n "$NAME_SPACE"
