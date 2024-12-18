@@ -10,7 +10,7 @@ spring:
       uri: mongodb+srv://foodie:foodie@cluster0.t4mq9fc.mongodb.net/health_sync
 
   datasource:
-    url: jdbc:redshift://default-workgroup.445567117276.eu-north-1.redshift-serverless.amazonaws.com:5439/heath_tech
+    url: jdbc:redshift://default-workgroup.445567117276.eu-north-1.redshift-serverless.amazonaws.com:5439/health_tech
     username: admin
     password: 'FJRFLcbmlm173&&'
 
