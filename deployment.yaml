@@ -20,3 +20,15 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /api/aggregator-service/actuator/health
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /api/aggregator-service/actuator/health
+            initialDelaySeconds: 40
+            periodSeconds: 10
