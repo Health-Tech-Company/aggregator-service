@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class DoctorAppointmentCount {
     private String doctorId;
-    private Integer appointmentCount;
+    private Integer appointmentCount = 0;
 }

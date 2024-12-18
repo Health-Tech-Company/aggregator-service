@@ -22,7 +22,7 @@ public class ETLRepository {
     }
 
     public void uploadSpecialtyConditions(String specialty, String condition, int count) {
-        String sql = "INSERT INTO SpecialtyConditions (specialty, condition, count, report_date) VALUES (?, ?, CURRENT_DATE)";
+        String sql = "INSERT INTO SpecialtyConditions (specialty, condition, count, report_date) VALUES (?, ?, ?, CURRENT_DATE)";
         jdbcTemplate.update(sql, specialty, condition, count);
     }
 }

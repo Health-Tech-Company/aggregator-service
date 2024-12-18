@@ -6,5 +6,5 @@ import lombok.Data;
 public class SpecialtyConditionCount {
     private String specialty;
     private String condition;
-    private Integer count;
+    private Integer count = 0;
 }

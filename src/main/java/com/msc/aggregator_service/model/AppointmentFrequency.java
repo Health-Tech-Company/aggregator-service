@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class AppointmentFrequency {
-    private String period;
-    private Integer count;
+    private String period = "";
+    private Integer count = 0;
 }
