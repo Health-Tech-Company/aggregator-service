@@ -10,10 +10,9 @@ spring:
       uri: mongodb+srv://foodie:foodie@cluster0.t4mq9fc.mongodb.net/health_sync
 
   datasource:
-    url: jdbc:postgresql://default-workgroup.445567117276.eu-north-1.redshift-serverless.amazonaws.com:5439/heath_tech
+    url: jdbc:redshift://default-workgroup.445567117276.eu-north-1.redshift-serverless.amazonaws.com:5439/heath_tech
     username: admin
     password: 'FJRFLcbmlm173&&'
-    driver-class-name: org.postgresql.Driver
 
   application:
     name: AppointmentSchedulingService
