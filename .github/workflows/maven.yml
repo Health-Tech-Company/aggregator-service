@@ -66,3 +66,8 @@ jobs:
           kubectl apply -f deployment.yaml -n "$NAME_SPACE"
           kubectl rollout restart deployment "$DEPLOYMENT_NAME" -n "$NAME_SPACE"
           kubectl get services -o wide -n "$NAME_SPACE"
+
+      - name: Deployment Integration Tests
+        run: |
+          echo "Running Service Health Check Test..."
+          curl --fail http://34.160.113.73/api/aggregator-service/actuator/health || exit 1
